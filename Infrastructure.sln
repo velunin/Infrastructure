@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Web", "Infrastructure.Web\Infrastructure.Web.csproj", "{C1D7698E-9CD9-49DA-A173-A63D705EC930}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.DataAccess", "Infrastructure.DataAccess\Infrastructure.DataAccess.csproj", "{F271F1F1-E686-4A3B-91D5-B9EF23441C1F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Domain", "Infrastructure.Domain\Infrastructure.Domain.csproj", "{35333708-6A29-4C22-BC6A-716199560678}"
@@ -25,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C1D7698E-9CD9-49DA-A173-A63D705EC930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1D7698E-9CD9-49DA-A173-A63D705EC930}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1D7698E-9CD9-49DA-A173-A63D705EC930}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1D7698E-9CD9-49DA-A173-A63D705EC930}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F271F1F1-E686-4A3B-91D5-B9EF23441C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F271F1F1-E686-4A3B-91D5-B9EF23441C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F271F1F1-E686-4A3B-91D5-B9EF23441C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
