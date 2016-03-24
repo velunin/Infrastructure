@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Data.Linq.Mapping;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using System.Linq;
