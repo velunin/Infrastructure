@@ -11,33 +11,33 @@ namespace Infrastructure.EntityFramework
 {
     public abstract class EntityFrameworkRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
-        private readonly DbContext _context;
-        private readonly DbSet<TEntity> _dbSet;
+        protected DbContext Context { get; }
+        protected DbSet<TEntity> DbSet { get; }
 
         public EntityFrameworkRepository(IDbContextFactory contextFactory)
         {
-            _context = contextFactory.GetContext();
-            _dbSet = _context.Set<TEntity>();
+            Context = contextFactory.GetContext();
+            DbSet = Context.Set<TEntity>();
         }
 
         public virtual void Create(TEntity entity)
         {
-            _dbSet.Add(entity);
+            DbSet.Add(entity);
         }
 
         public virtual void Update(TEntity entity)
         {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            DbSet.Attach(entity);
+            Context.Entry(entity).State = EntityState.Modified;
         }
 
         public virtual void Delete(TEntity entity)
         {
-            if (_context.Entry(entity).State == EntityState.Detached)
+            if (Context.Entry(entity).State == EntityState.Detached)
             {
-                _dbSet.Attach(entity);
+                DbSet.Attach(entity);
             }
-            _dbSet.Remove(entity);
+            DbSet.Remove(entity);
         }
 
         public virtual void Delete(int id)
@@ -48,7 +48,7 @@ namespace Infrastructure.EntityFramework
 
         public virtual TEntity FindById(int id)
         {
-            var query = _dbSet
+            var query = DbSet
                 .Where(x => x.Id == id);
 
             return query.FirstOrDefault();
@@ -68,7 +68,7 @@ namespace Infrastructure.EntityFramework
 
         public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> whereExpression, SortOrders<TEntity> orders = null)
         {
-            IQueryable<TEntity> tempResult = _dbSet;
+            IQueryable<TEntity> tempResult = DbSet;
 
             if (whereExpression != null) tempResult = tempResult.Where(whereExpression);
             if (orders != null) tempResult = tempResult.OrderBy(orders);
@@ -85,7 +85,7 @@ namespace Infrastructure.EntityFramework
             pageNumber = pageNumber < 1 ? 1 : pageNumber;
             pageSize = pageSize < 1 ? 1 : pageSize;
 
-            IQueryable<TEntity> tempResult = _dbSet;
+            IQueryable<TEntity> tempResult = DbSet;
 
             if (predicate != null) tempResult = tempResult.Where(predicate);
             if (orders != null) tempResult = tempResult.OrderBy(orders);
