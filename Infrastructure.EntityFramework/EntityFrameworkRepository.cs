@@ -11,7 +11,7 @@ namespace Infrastructure.EntityFramework
 {
     public abstract class EntityFrameworkRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
-        protected DbContext Context { get; }
+        protected DbContext Context { get; set; }
         protected DbSet<TEntity> DbSet { get; }
 
         public EntityFrameworkRepository(IDbContextFactory contextFactory)
