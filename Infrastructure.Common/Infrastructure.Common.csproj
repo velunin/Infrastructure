@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\SqlDynamicQuery.cs" />
+    <Compile Include="Helpers\Serialization.cs" />
     <Compile Include="IOrderByItem.cs" />
     <Compile Include="Linq\ExpressionVisitorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
