@@ -9,7 +9,9 @@ using Infrastructure.Domain;
 
 namespace Infrastructure.EntityFramework
 {
-    public abstract class EntityFrameworkRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    public abstract class EntityFrameworkRepository<TEntity, TKey> : IRepository<TEntity, TKey>
+        where TEntity : class, IEntity<TKey> 
+        where TKey : struct
     {
         protected DbContext Context { get; set; }
         protected DbSet<TEntity> DbSet { get; }
@@ -40,16 +42,16 @@ namespace Infrastructure.EntityFramework
             DbSet.Remove(entity);
         }
 
-        public virtual void Delete(int id)
+        public virtual void Delete(TKey id)
         {
             var entity = FindById(id);
             Delete(entity);
         }
 
-        public virtual TEntity FindById(int id)
+        public virtual TEntity FindById(TKey id)
         {
             var query = DbSet
-                .Where(x => x.Id == id);
+                .Where(x => x.Id.Equals(id));
 
             return query.FirstOrDefault();
         }
@@ -66,7 +68,8 @@ namespace Infrastructure.EntityFramework
             return PagedFind(null, orders, pageNumber, pageSize);
         }
 
-        public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> whereExpression, SortOrders<TEntity> orders = null)
+        public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> whereExpression,
+            SortOrders<TEntity> orders = null)
         {
             IQueryable<TEntity> tempResult = DbSet;
 
@@ -100,6 +103,6 @@ namespace Infrastructure.EntityFramework
             };
 
             return result;
-        }   
+        }
     }
 }

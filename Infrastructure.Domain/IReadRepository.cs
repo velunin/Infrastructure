@@ -5,14 +5,14 @@ using Infrastructure.Common;
 
 namespace Infrastructure.Domain
 {
-    public interface IReadRepository<TEntity> where TEntity : IEntity
+    public interface IReadRepository<TEntity, TKey> where TEntity : IEntity<TKey> where TKey : struct
     {
         IEnumerable<TEntity> All(SortOrders<TEntity> orders = null);
  
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate,
             SortOrders<TEntity> orders = null);
 
-        TEntity FindById(int id);
+        TEntity FindById(TKey id);
 
         PagedResult<TEntity> PagedAll(SortOrders<TEntity> orders = null,
             int pageNumber = 1, int pageSize = 100);

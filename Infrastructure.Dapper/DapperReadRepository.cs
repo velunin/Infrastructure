@@ -10,7 +10,7 @@ using Infrastructure.Domain;
 
 namespace Infrastructure.Dapper
 {
-    public abstract class DapperReadRepository<TEntity> : IReadRepository<TEntity> where TEntity : IEntity
+    public abstract class DapperReadRepository<TEntity, TKey> : IReadRepository<TEntity, TKey> where TEntity : IEntity<TKey> where TKey : struct 
     {
         private readonly IDbConnection _connection;
         // ReSharper disable once MemberCanBePrivate.Global
@@ -51,10 +51,10 @@ namespace Infrastructure.Dapper
             return Connection.Query<TEntity>(query.Query, (object)query.Parameters);
         }
 
-        public virtual TEntity FindById(int id)
+        public virtual TEntity FindById(TKey id)
         {
             var query = new SqlDynamicQuery<TEntity>()
-                .Where(x => x.Id == id)
+                .Where(x => x.Id.Equals(id))
                 .Take(1)
                 .ToSql();
 

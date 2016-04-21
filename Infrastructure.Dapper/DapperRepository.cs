@@ -3,7 +3,11 @@ using Infrastructure.Domain;
 
 namespace Infrastructure.Dapper
 {
-    public abstract class DapperRepository<TEntity> : DapperReadRepository<TEntity>, IRepository<TEntity> where TEntity : IEntity
+    public abstract class DapperRepository<TEntity, TKey> : 
+        DapperReadRepository<TEntity, TKey>,
+        IRepository<TEntity, TKey> 
+        where TEntity : IEntity<TKey> 
+        where TKey : struct
     {
         protected DapperRepository(IDbConnection connection) : base(connection)
         {
@@ -24,7 +28,7 @@ namespace Infrastructure.Dapper
             throw new System.NotImplementedException();
         }
 
-        public virtual void Delete(int id)
+        public virtual void Delete(TKey id)
         {
             throw new System.NotImplementedException();
         }

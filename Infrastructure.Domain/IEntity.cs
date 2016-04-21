@@ -1,7 +1,7 @@
 ﻿namespace Infrastructure.Domain
 {
-    public interface IEntity
+    public interface IEntity<TKey> where TKey: struct
     {
-        int Id { get; } 
+        TKey Id { get; } 
     }
 }

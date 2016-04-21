@@ -1,7 +1,7 @@
 ﻿namespace Infrastructure.Domain
 {
-    public interface IRepository<TEntity> : IReadRepository<TEntity>,
-        IWriteRepository<TEntity> where TEntity : IEntity
+    public interface IRepository<TEntity,TKey> : IReadRepository<TEntity,TKey>,
+        IWriteRepository<TEntity, TKey> where TEntity : IEntity<TKey> where TKey : struct
     {
     }
 }
