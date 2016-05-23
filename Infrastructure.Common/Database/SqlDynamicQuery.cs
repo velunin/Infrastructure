@@ -324,10 +324,10 @@ namespace Infrastructure.Common.Database
             return string.Format(@"
 ;WITH Result_CTE AS
 (
-SELECT {0}, ROW_NUMBER() OVER ({1}) AS RowNum {2}
+SELECT {0}, ROW_NUMBER() OVER ({1}) AS RowNum FROM [{2}] {3}
 )
-SELECT {0} FROM [{0}] WHERE RowNum > {3} AND RowNum < {4}
-", _selectPart.Value, _orderPart.Value, _wherePart.Value, _skipCount, _skipCount + _takeCount);
+SELECT {0} FROM Result_CTE WHERE RowNum > {4} AND RowNum < {5}
+", _selectPart.Value, _orderPart.Value, _tableName, _wherePart.Value, _skipCount, _skipCount + _takeCount);
         }
 
         private string ConstructWhere()
