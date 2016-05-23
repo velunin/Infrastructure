@@ -51,7 +51,7 @@ namespace Infrastructure.EntityFramework
         public virtual TEntity FindById(TKey id)
         {
             var query = DbSet
-                .Where(x => x.Id.Equals(id));
+                .Where(x => (object)x.Id == (object)id);
 
             return query.FirstOrDefault();
         }

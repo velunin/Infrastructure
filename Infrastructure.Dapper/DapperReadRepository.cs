@@ -57,7 +57,7 @@ namespace Infrastructure.Dapper
                 .Where(x => x.Id.Equals(id))
                 .Take(1)
                 .ToSql();
-
+            
             return Connection.Query<TEntity>(query.Query, (object)query.Parameters).FirstOrDefault();
         }
 

@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Xml;
 using Infrastructure.Common.Linq;
 
 namespace Infrastructure.Common.Database
@@ -309,6 +310,9 @@ namespace Infrastructure.Common.Database
                 case "EndsWith":
                     ProcessEndsWith(node);
                     break;
+                case "Equals":
+                    ProcessEquals(node, context);
+                    break;
                 default:
                     throw new NotImplementedException(string.Format("Method '{0}' not supported", node.Method.Name));
 
@@ -414,6 +418,19 @@ SELECT {0} FROM [{0}] WHERE RowNum > {3} AND RowNum < {4}
             Visit(Context.Create(node, null), node.Arguments[0]);
         }
 
+        private void ProcessEquals(MethodCallExpression node, Context context)
+        {
+            var value = GetMemberValue((MemberExpression)((UnaryExpression)node.Arguments[0]).Operand);
+
+            if (!IsTargetMember(node.Object))
+                Out('@');
+
+            Out(GetMemberName((MemberExpression)node.Object));
+            var constantNode = Expression.Constant(Convert.ChangeType(value, node.Object.Type));
+            Out(" = ");
+            VisitConstant(context, constantNode);
+        }
+
         private void Out(string s)
         {
             _whereOut.Append(s);
@@ -507,7 +524,7 @@ SELECT {0} FROM [{0}] WHERE RowNum > {3} AND RowNum < {4}
 
         private bool IsTargetMember(Expression expression)
         {
-            return (expression is MemberExpression) && ((MemberExpression)expression).Member.DeclaringType == _targetType;
+            return (expression is MemberExpression) && (((MemberExpression)expression).Member.DeclaringType == _targetType || ((MemberExpression)expression).Member.DeclaringType.IsAssignableFrom(_targetType));
         }
 
         private bool IsAnotherMember(Expression expression)
